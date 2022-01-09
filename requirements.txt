@@ -1,0 +1,6 @@
+aiosqlite
+fastapi
+fastapi-utils
+sqlalchemy
+uvicorn
+gunicorn

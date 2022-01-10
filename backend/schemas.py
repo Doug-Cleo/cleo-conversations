@@ -4,6 +4,7 @@ from pydantic import BaseModel
 
 
 class PostBase(BaseModel):
+    title: Optional[str] = None
     content: str
     type: str
 
@@ -16,12 +17,15 @@ class Post(PostBase):
     post_id: int
     parent_id: Optional[int] = None
     user_id: int
-    sort_key: int
     created: datetime
     updated: datetime
 
     class Config:
         orm_mode = True
+
+
+class Topic(Post):
+    level: int
 
 
 class UserBase(BaseModel):

@@ -112,6 +112,15 @@ async def create_post_for_user(
     )
 
 
+@app.post("/posts/", response_model=schemas.Post, tags=["posts"])
+async def create_post(
+    post: schemas.PostCreate,
+    async_session: AsyncSession = Depends(get_async_session),
+):
+    new_post = await crud.create_post(async_session=async_session, post=post)
+    return new_post
+
+
 @app.get("/posts/", response_model=List[schemas.Post], tags=["posts"])
 async def read_posts(
     skip: int = 0,

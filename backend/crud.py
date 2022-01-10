@@ -63,14 +63,13 @@ async def get_posts(
     return result.scalars().fetchall()
 
 
-async def _get_next_sort_key(async_session: AsyncSession) -> int:
-    result = await async_session.execute(
-        select(func.ifnull(func.max(models.Post.sort_key) + 1, 0))
-    )
-    retval = result.one_or_none()
-    if retval is None:
-        raise RuntimeError("Failed to get new value for sort_key")
-    return retval[0]
+async def create_post(async_session: AsyncSession, post: schemas.PostCreate):
+    new_post = models.Post(**post.dict())
+    sort_key = await _get_next_sort_key(async_session)
+    new_post.sort_key = sort_key
+    async_session.add(new_post)
+    await async_session.commit()
+    return new_post
 
 
 async def create_user_post(
@@ -139,6 +138,15 @@ async def get_topics(
     retval = result.fetchall()
     return retval
 
+
+async def _get_next_sort_key(async_session: AsyncSession) -> int:
+    result = await async_session.execute(
+        select(func.ifnull(func.max(models.Post.sort_key) + 1, 0))
+    )
+    retval = result.one_or_none()
+    if retval is None:
+        raise RuntimeError("Failed to get new value for sort_key")
+    return retval[0]
 
 
     # build the recursive CTE query

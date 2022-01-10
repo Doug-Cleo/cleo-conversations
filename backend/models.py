@@ -42,6 +42,7 @@ class Post(Base):
     parent_id: int = Column(Integer, ForeignKey("post.post_id"), default=None, index=True)
     user_id: int = Column(Integer, ForeignKey("user.user_id", ondelete="CASCADE"))
     sort_key: int = Column(Integer)
+    title: str = Column(String, default=None)
     content: str = Column(String)
     type: str = Column(String)
     created: datetime = Column(DateTime, default=datetime.now(tz=timezone.utc), index=True)

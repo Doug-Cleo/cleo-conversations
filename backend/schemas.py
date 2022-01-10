@@ -1,12 +1,19 @@
-from typing import List, Dict, Optional
+from typing import List, Optional
+from enum import Enum
 from datetime import datetime
 from pydantic import BaseModel
+
+
+class TypeEnum(str, Enum):
+    topic = "topic"
+    content = "content"
+    comment = "comment"
 
 
 class PostBase(BaseModel):
     title: Optional[str] = None
     content: str
-    type: str
+    type: TypeEnum = TypeEnum.topic
 
 
 class PostCreate(PostBase):

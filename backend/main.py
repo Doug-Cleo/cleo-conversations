@@ -67,7 +67,7 @@ async def get_async_session():
         await async_session.close()
 
 
-@app.post("/users/", response_model=schemas.User, tags=["users"])
+@app.post("/users/", response_model=schemas.User, tags=["users"], status_code=201)
 async def create_user(
     user: schemas.UserCreate,
     async_session: AsyncSession = Depends(get_async_session),
@@ -101,7 +101,7 @@ async def read_user(
     return the_user
 
 
-@app.post("/users/{user_id}/post/", response_model=schemas.Post, tags=["users"])
+@app.post("/users/{user_id}/post/", response_model=schemas.Post, tags=["users"], status_code=201)
 async def create_post_for_user(
     user_id: int,
     post: schemas.PostCreate,
@@ -112,7 +112,7 @@ async def create_post_for_user(
     )
 
 
-@app.post("/posts/", response_model=schemas.Post, tags=["posts"])
+@app.post("/posts/", response_model=schemas.Post, tags=["posts"], status_code=201)
 async def create_post(
     post: schemas.PostCreate,
     async_session: AsyncSession = Depends(get_async_session),
@@ -150,11 +150,11 @@ async def read_topics(
     return posts
 
 
-@app.get("/topics/{post_id}/content/", response_model=List[schemas.Post], tags=["topics"])
+@app.get("/topics/{topic_id}/content/", response_model=List[schemas.Post], tags=["topics"])
 async def read_topics(
         async_session: Session = Depends(get_async_session),
-        post_id: int = None
+        topic_id: int = None
 ):
     categories = ("topic", "content", "comment")
-    posts = await crud.get_topics(async_session, categories, post_id)
+    posts = await crud.get_topics(async_session, categories, topic_id)
     return posts

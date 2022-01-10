@@ -11,6 +11,7 @@ class PostBase(BaseModel):
 
 class PostCreate(PostBase):
     parent_id: Optional[int] = None
+    user_id: int
 
 
 class Post(PostBase):

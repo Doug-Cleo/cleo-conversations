@@ -96,15 +96,15 @@ async def get_post(async_session: AsyncSession, post_id: int):
 async def get_topics(
     async_session: AsyncSession,
     categories: Tuple[str],
-    post_id: int = None
+    topic_id: int = None
 ):
-    if post_id is not None:
+    if topic_id is not None:
         hierarchy = (
             select(
                 models.Post,
                 func.cast(models.Post.sort_key, String).label("sorting_key")
             )
-            .where(models.Post.post_id == post_id)
+            .where(models.Post.post_id == topic_id)
             .where(models.Post.parent_id == 0)
             .cte(name="hierarchy", recursive=True)
         )

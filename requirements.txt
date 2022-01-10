@@ -4,3 +4,4 @@ fastapi-utils
 sqlalchemy
 uvicorn
 gunicorn
+email-validator

@@ -135,8 +135,14 @@ async def get_topics(
         .order_by(hierarchy.c.sorting_key)
     )
     result = await async_session.execute(stmt)
-    retval = result.fetchall()
-    return retval
+    posts = result.fetchall()
+    return [
+        {
+            "post": post,
+            "level": len(post.sorting_key.split(" "))
+        }
+        for post in posts
+    ]
 
 
 async def _get_next_sort_key(async_session: AsyncSession) -> int:

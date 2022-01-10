@@ -40,7 +40,7 @@ tags_metadata = [
 ]
 
 app = FastAPI(
-    title="Cleo Conversations Forum",
+    title="Cleo Conversations",
     description=description,
     version="0.0.1",
     contact={
@@ -141,20 +141,20 @@ async def read_post(
     return the_post
 
 
-@app.get("/topics/", response_model=List[schemas.Post], tags=["topics"])
+@app.get("/topics/", response_model=List[schemas.Topic], tags=["topics"])
 async def read_topics(
         async_session: Session = Depends(get_async_session)
 ):
     categories = ("topic", "content")
-    posts = await crud.get_topics(async_session, categories)
-    return posts
+    topics = await crud.get_topics(async_session, categories)
+    return topics
 
 
-@app.get("/topics/{topic_id}/content/", response_model=List[schemas.Post], tags=["topics"])
+@app.get("/topics/{topic_id}/content/", response_model=List[schemas.Topic], tags=["topics"])
 async def read_topics(
         async_session: Session = Depends(get_async_session),
         topic_id: int = None
 ):
     categories = ("topic", "content", "comment")
-    posts = await crud.get_topics(async_session, categories, topic_id)
-    return posts
+    topics = await crud.get_topics(async_session, categories, topic_id)
+    return topics

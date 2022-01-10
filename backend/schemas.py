@@ -25,8 +25,9 @@ class Post(PostBase):
         orm_mode = True
 
 
-class Topic(Post):
-    level: int
+class Topic(BaseModel):
+    post: Post
+    level: Optional[int] = 0
 
 
 class UserBase(BaseModel):
